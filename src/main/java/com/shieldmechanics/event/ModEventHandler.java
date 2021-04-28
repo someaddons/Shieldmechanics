@@ -1,6 +1,6 @@
-package com.hostilevillages.event;
+package com.shieldmechanics.event;
 
-import com.hostilevillages.RandomVillageDataSet;
+import com.shieldmechanics.ShieldDataGatherer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
 
@@ -9,6 +9,6 @@ public class ModEventHandler
     @SubscribeEvent
     public static void onConfigChanged(ModConfig.ModConfigEvent event)
     {
-        RandomVillageDataSet.parseFromConfig();
+        ShieldDataGatherer.parseFromConfig();
     }
 }

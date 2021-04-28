@@ -1,11 +1,9 @@
 {
   "required": false,
-  "package": "com.hostilevillages.mixin",
+  "package": "com.shieldmechanics.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "hostilevillages.refmap.json",
   "mixins": [
-    "ITagMixin",
-    "JigsawPatternRegistryMixin"
   ],
   "client": [
   ],
