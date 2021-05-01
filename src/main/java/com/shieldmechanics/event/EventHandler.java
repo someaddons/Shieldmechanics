@@ -12,12 +12,8 @@ import net.minecraft.item.ShieldItem;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /**
@@ -105,29 +101,6 @@ public class EventHandler
         {
             // No block offhand
             event.setAmount(event.getAmount() * ShieldDataGatherer.getHoldDamageReductionFor(event.getEntityLiving().getOffhandItem()));
-        }
-    }
-
-    @SubscribeEvent
-    public static void on(ItemTooltipEvent event)
-    {
-        if (event.getItemStack().getItem() instanceof ShieldItem)
-        {
-            final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(event.getItemStack().getItem().getRegistryName());
-            if (data == null)
-            {
-                return;
-            }
-
-            event.getToolTip()
-              .add(new StringTextComponent(
-                "Damage reduction on block: " + (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
-                     .setStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
-
-            event.getToolTip()
-              .add(new StringTextComponent(
-                "Damage reduction while holding: " + data.onHoldDamageReductionPercent + "%")
-                     .setStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
         }
     }
 }

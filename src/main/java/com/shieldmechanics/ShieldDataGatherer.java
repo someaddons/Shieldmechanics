@@ -158,7 +158,9 @@ public class ShieldDataGatherer
         static ShieldData generateForItem(final Item item)
         {
             // Compare shield value based on durability to have the shield somewhat comepareable
-            final double durabilityModifier = (item.getMaxDamage() / DEFAULT_SHIELD_DURABILITY) - 1;
+            double durabilityModifier = (item.getMaxDamage() / DEFAULT_SHIELD_DURABILITY) - 1;
+
+            durabilityModifier *= (Shieldmechanics.rand.nextInt((130 - 70) + 1) + 70) / 100d;
 
             final int blockReduction = (int) (DEFAULT_SHIELD_BLOCK_REDUCTION + Math.min(5 * (durabilityModifier / 0.75f), 25));
             final int holdReduction = (int) (DEFAULT_SHIELD_HOLD_REDUCTION + Math.min(3 * (durabilityModifier / 0.75f), 15));

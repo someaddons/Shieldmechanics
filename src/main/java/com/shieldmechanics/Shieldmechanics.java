@@ -1,11 +1,14 @@
 package com.shieldmechanics;
 
 import com.shieldmechanics.config.Configuration;
+import com.shieldmechanics.event.ClientEventHandler;
 import com.shieldmechanics.event.EventHandler;
 import com.shieldmechanics.event.ModEventHandler;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
@@ -34,6 +37,13 @@ public class Shieldmechanics
         Mod.EventBusSubscriber.Bus.MOD.bus().get().register(ModEventHandler.class);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+    }
+
+    @SubscribeEvent
+    public void clientSetup(FMLClientSetupEvent event)
+    {
+        Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(ClientEventHandler.class);
     }
 
     private void setup(final FMLCommonSetupEvent event)

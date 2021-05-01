@@ -1,0 +1,36 @@
+package com.shieldmechanics.event;
+
+import com.shieldmechanics.ShieldDataGatherer;
+import com.shieldmechanics.enchant.BlockDamageEnchant;
+import net.minecraft.item.ShieldItem;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+public class ClientEventHandler
+{
+    @SubscribeEvent
+    public static void on(ItemTooltipEvent event)
+    {
+        if (event.getItemStack().getItem() instanceof ShieldItem)
+        {
+            final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(event.getItemStack().getItem().getRegistryName());
+            if (data == null)
+            {
+                return;
+            }
+
+            event.getToolTip()
+              .add(new StringTextComponent(
+                "Damage reduction on block: " + (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
+                     .setStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
+
+            event.getToolTip()
+              .add(new StringTextComponent(
+                "Damage reduction while holding: " + data.onHoldDamageReductionPercent + "%")
+                     .setStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
+        }
+    }
+}
