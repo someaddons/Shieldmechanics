@@ -7,7 +7,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -34,7 +34,7 @@ public class EventHandler
         }
 
         if ((event.getAmount() > 0.0F && event.getEntityLiving().isDamageSourceBlocked(event.getSource()) && event.getEntityLiving()
-                                                                                                               .getMainHandItem()
+                                                                                                               .getItemInHand(event.getEntityLiving().getUsedItemHand())
                                                                                                                .getItem() instanceof ShieldItem))
         {
             source = event.getSource();
@@ -51,6 +51,10 @@ public class EventHandler
             return;
         }
 
+
+        final ItemStack shieldItem = event.getEntityLiving().getItemInHand(event.getEntityLiving().getUsedItemHand());
+
+        //Blocking
         if (event.getEntity() == current && event.getAmount() == 0 && event.getSource() == source)
         {
             // Knockback enchant
@@ -59,26 +63,26 @@ public class EventHandler
             if (sourceEntity instanceof LivingEntity && current != null)
             {
                 if (Shieldmechanics.rand.nextInt(KnockBackEnchant.KOCKBACK_CHANCE) == 0
-                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.knockBackEnchant, event.getEntityLiving().getMainHandItem()) > 0)
+                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.knockBackEnchant, shieldItem) > 0)
                 {
                     ((LivingEntity) sourceEntity).knockback(1.0F, current.getX() - sourceEntity.getX(), current.getZ() - sourceEntity.getZ());
                 }
 
                 if (Shieldmechanics.rand.nextInt(SlownessEnchant.APPLY_CHANCE) == 0
-                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.slownessEnchant, event.getEntityLiving().getMainHandItem()) > 0)
+                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.slownessEnchant, shieldItem) > 0)
                 {
                     ((LivingEntity) sourceEntity).addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 100));
                 }
 
                 if (Shieldmechanics.rand.nextInt(BlindEnchant.APPLY_CHANCE) == 0
-                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.blindEnchant, event.getEntityLiving().getMainHandItem()) > 0)
+                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.blindEnchant, shieldItem) > 0)
                 {
                     ((LivingEntity) sourceEntity).addEffect(new EffectInstance(Effects.BLINDNESS, 100));
                 }
 
                 if (event.getEntityLiving().getHealth() < 10 && event.getEntityLiving().getAbsorptionAmount() == 0
                       && Shieldmechanics.rand.nextInt(LastResortEnchant.APPLY_CHANCE) == 0
-                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.lastResortEnchant, event.getEntityLiving().getMainHandItem()) > 0)
+                      && EnchantmentHelper.getItemEnchantmentLevel(Enchants.lastResortEnchant, shieldItem) > 0)
                 {
                     event.getEntityLiving().setAbsorptionAmount(6);
                 }
@@ -87,20 +91,16 @@ public class EventHandler
             // BLock case
             if (event.getEntityLiving() instanceof PlayerEntity && Shieldmechanics.config.getCommonConfig().blockCooldown.get() > 0)
             {
-                ((PlayerEntity) event.getEntityLiving()).getCooldowns().addCooldown(Items.SHIELD, Shieldmechanics.config.getCommonConfig().blockCooldown.get());
+                ((PlayerEntity) event.getEntityLiving()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown.get());
             }
 
-            event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(event.getEntityLiving().getMainHandItem()));
+            event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(shieldItem));
         }
-        else if (event.getEntityLiving().getMainHandItem().getItem() instanceof ShieldItem)
+        //Nonblocking
+        else if (shieldItem.getItem() instanceof ShieldItem)
         {
             // No block mainhand
-            event.setAmount(event.getAmount() * ShieldDataGatherer.getHoldDamageReductionFor(event.getEntityLiving().getMainHandItem()));
-        }
-        else if (event.getEntityLiving().getOffhandItem().getItem() instanceof ShieldItem)
-        {
-            // No block offhand
-            event.setAmount(event.getAmount() * ShieldDataGatherer.getHoldDamageReductionFor(event.getEntityLiving().getOffhandItem()));
+            event.setAmount(event.getAmount() * ShieldDataGatherer.getHoldDamageReductionFor(shieldItem));
         }
     }
 }
