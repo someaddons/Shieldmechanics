@@ -4,6 +4,8 @@ import com.shieldmechanics.config.Configuration;
 import com.shieldmechanics.event.ClientEventHandler;
 import com.shieldmechanics.event.EventHandler;
 import com.shieldmechanics.event.ModEventHandler;
+import net.minecraft.item.Item;
+import net.minecraft.item.ShieldItem;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -51,5 +53,10 @@ public class Shieldmechanics
         ShieldDataGatherer.parseFromConfig();
         ShieldDataGatherer.detectItems();
         LOGGER.info("Shield mechanics initialized");
+    }
+
+    public static boolean isShield(final Item item)
+    {
+        return item instanceof ShieldItem || item.isShield(item.getDefaultInstance(), null);
     }
 }

@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
@@ -33,9 +32,9 @@ public class EventHandler
             return;
         }
 
-        if ((event.getAmount() > 0.0F && event.getEntityLiving().isDamageSourceBlocked(event.getSource()) && event.getEntityLiving()
+        if ((event.getAmount() > 0.0F && event.getEntityLiving().isDamageSourceBlocked(event.getSource()) && Shieldmechanics.isShield(event.getEntityLiving()
                                                                                                                .getItemInHand(event.getEntityLiving().getUsedItemHand())
-                                                                                                               .getItem() instanceof ShieldItem))
+                                                                                                                                        .getItem())))
         {
             source = event.getSource();
             amount = event.getAmount();
@@ -97,7 +96,7 @@ public class EventHandler
             event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(shieldItem));
         }
         //Nonblocking
-        else if (shieldItem.getItem() instanceof ShieldItem)
+        else if (Shieldmechanics.isShield(shieldItem.getItem()))
         {
             // No block mainhand
             event.setAmount(event.getAmount() * ShieldDataGatherer.getHoldDamageReductionFor(shieldItem));

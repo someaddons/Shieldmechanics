@@ -1,8 +1,8 @@
 package com.shieldmechanics.event;
 
 import com.shieldmechanics.ShieldDataGatherer;
+import com.shieldmechanics.Shieldmechanics;
 import com.shieldmechanics.enchant.BlockDamageEnchant;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -14,7 +14,7 @@ public class ClientEventHandler
     @SubscribeEvent
     public static void on(ItemTooltipEvent event)
     {
-        if (event.getItemStack().getItem() instanceof ShieldItem)
+        if (Shieldmechanics.isShield(event.getItemStack().getItem()))
         {
             final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(event.getItemStack().getItem().getRegistryName());
             if (data == null)

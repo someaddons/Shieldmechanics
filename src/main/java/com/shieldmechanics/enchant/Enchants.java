@@ -5,7 +5,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ShieldItem;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,7 +26,7 @@ public class Enchants
     @SubscribeEvent
     public static void registerEnchants(final RegistryEvent.Register<Enchantment> event)
     {
-        SHIELD = EnchantmentType.create("shield", s -> s instanceof ShieldItem);
+        SHIELD = EnchantmentType.create("shield", Shieldmechanics::isShield);
 
         blockDamageEnchant = new BlockDamageEnchant(Enchantment.Rarity.VERY_RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
         event.getRegistry().register(blockDamageEnchant);
