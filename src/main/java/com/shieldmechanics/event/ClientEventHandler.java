@@ -11,9 +11,17 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ClientEventHandler
 {
+    private static boolean init = false;
+
     @SubscribeEvent
     public static void on(ItemTooltipEvent event)
     {
+        if (!init)
+        {
+            init = true;
+            ShieldDataGatherer.detectItems();
+        }
+
         if (Shieldmechanics.isShield(event.getItemStack().getItem()))
         {
             final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(event.getItemStack().getItem().getRegistryName());

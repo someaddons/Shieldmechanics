@@ -28,15 +28,15 @@ public class Enchants
     {
         SHIELD = EnchantmentType.create("shield", Shieldmechanics::isShield);
 
-        blockDamageEnchant = new BlockDamageEnchant(Enchantment.Rarity.VERY_RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        blockDamageEnchant = new BlockDamageEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
         event.getRegistry().register(blockDamageEnchant);
-        knockBackEnchant = new KnockBackEnchant(Enchantment.Rarity.VERY_RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        knockBackEnchant = new KnockBackEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
         event.getRegistry().register(knockBackEnchant);
-        slownessEnchant = new SlownessEnchant(Enchantment.Rarity.VERY_RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        slownessEnchant = new SlownessEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
         event.getRegistry().register(slownessEnchant);
-        blindEnchant = new BlindEnchant(Enchantment.Rarity.VERY_RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        blindEnchant = new BlindEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
         event.getRegistry().register(blindEnchant);
-        lastResortEnchant = new LastResortEnchant(Enchantment.Rarity.VERY_RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        lastResortEnchant = new LastResortEnchant(Enchantment.Rarity.RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
         event.getRegistry().register(lastResortEnchant);
 
         final List<EnchantmentType> combatTypes = new ArrayList<>(Arrays.asList(ItemGroup.TAB_COMBAT.getEnchantmentCategories()));

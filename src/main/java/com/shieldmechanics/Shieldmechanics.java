@@ -11,7 +11,7 @@ import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
 import org.apache.logging.log4j.LogManager;
@@ -38,7 +38,7 @@ public class Shieldmechanics
 
         Mod.EventBusSubscriber.Bus.MOD.bus().get().register(ModEventHandler.class);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
     }
 
@@ -48,7 +48,7 @@ public class Shieldmechanics
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(ClientEventHandler.class);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
+    private void setup(final FMLServerStartingEvent event)
     {
         ShieldDataGatherer.parseFromConfig();
         ShieldDataGatherer.detectItems();

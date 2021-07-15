@@ -55,7 +55,6 @@ public class ShieldDataGatherer
 
     public static void parseFromConfig()
     {
-        //possibleMonsters = new ArrayList<>();
         shields = new HashMap<>();
         for (final String entry : Shieldmechanics.config.getCommonConfig().shields.get())
         {
