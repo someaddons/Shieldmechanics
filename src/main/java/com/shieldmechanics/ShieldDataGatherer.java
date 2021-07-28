@@ -30,10 +30,10 @@ public class ShieldDataGatherer
         final ShieldData data = shields.get(stack.getItem().getRegistryName());
         if (data == null)
         {
-            return 0f;
+            return (100 - getDefaultBlockReductionPct(stack)) / 100f;
         }
 
-        return Math.max(0, data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(stack) / 100f));
+        return Math.max(0f, data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(stack) / 100f));
     }
 
     /**
@@ -47,7 +47,7 @@ public class ShieldDataGatherer
         final ShieldData data = shields.get(stack.getItem().getRegistryName());
         if (data == null)
         {
-            return 1f;
+            return (100 - getDefaultHoldReductionPct(stack)) / 100f;
         }
 
         return data.onHoldDamageReduction;
@@ -129,6 +129,30 @@ public class ShieldDataGatherer
 
             Shieldmechanics.config.getCommonConfig().shields.set(Arrays.asList(configList.toArray(new String[0])));
         }
+    }
+
+    /**
+     * Default value for missing shields, aka dynamically created shield types
+     *
+     * @param stack
+     * @return
+     */
+    public static int getDefaultBlockReductionPct(final ItemStack stack)
+    {
+        final int durability = stack.getMaxDamage();
+        return (int) Math.min(Shieldmechanics.config.getCommonConfig().maxblockdamagereduction.get(), (durability / ShieldData.DEFAULT_SHIELD_DURABILITY) * 65);
+    }
+
+    /**
+     * Default value for missing shields, aka dynamically created shield types
+     *
+     * @param stack
+     * @return
+     */
+    public static int getDefaultHoldReductionPct(final ItemStack stack)
+    {
+        final int durability = stack.getMaxDamage();
+        return (int) Math.min(Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction.get(), (durability / ShieldData.DEFAULT_SHIELD_DURABILITY) * 15);
     }
 
     /**
