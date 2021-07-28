@@ -5,6 +5,7 @@ import com.shieldmechanics.event.ClientEventHandler;
 import com.shieldmechanics.event.EventHandler;
 import com.shieldmechanics.event.ModEventHandler;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -52,5 +53,10 @@ public class Shieldmechanics
     public static boolean isShield(final Item item)
     {
         return item instanceof ShieldItem || item.isShield(item.getDefaultInstance(), null);
+    }
+
+    public static boolean isShield(final ItemStack stack)
+    {
+        return stack.getItem() instanceof ShieldItem || stack.getItem().isShield(stack, null);
     }
 }

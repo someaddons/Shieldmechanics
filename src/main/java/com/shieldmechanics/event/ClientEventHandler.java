@@ -22,11 +22,21 @@ public class ClientEventHandler
             ShieldDataGatherer.detectItems();
         }
 
-        if (Shieldmechanics.isShield(event.getItemStack().getItem()))
+        if (Shieldmechanics.isShield(event.getItemStack()))
         {
             final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(event.getItemStack().getItem().getRegistryName());
             if (data == null)
             {
+                event.getToolTip()
+                  .add(new TextComponent(
+                    "Damage reduction on block: " + (ShieldDataGatherer.getDefaultBlockReductionPct(event.getItemStack())
+                                                       + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
+                         .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
+
+                event.getToolTip()
+                  .add(new TextComponent(
+                    "Damage reduction while holding: " + ShieldDataGatherer.getDefaultHoldReductionPct(event.getItemStack()) + "%")
+                         .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
                 return;
             }
 

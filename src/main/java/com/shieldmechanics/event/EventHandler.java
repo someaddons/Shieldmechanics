@@ -98,7 +98,7 @@ public class EventHandler
             event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(shieldItem));
         }
         //Nonblocking
-        else if (Shieldmechanics.isShield(shieldItem.getItem()))
+        else if (Shieldmechanics.isShield(shieldItem))
         {
             // No block mainhand
             event.setAmount(event.getAmount() * ShieldDataGatherer.getHoldDamageReductionFor(shieldItem));
