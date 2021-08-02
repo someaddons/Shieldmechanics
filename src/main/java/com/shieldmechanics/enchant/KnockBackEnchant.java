@@ -1,9 +1,9 @@
 package com.shieldmechanics.enchant;
 
 import com.shieldmechanics.Shieldmechanics;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import static com.shieldmechanics.enchant.Enchants.SHIELD;
 
@@ -18,7 +18,7 @@ public class KnockBackEnchant extends Enchantment
     private final       String NAME_ID         = "block_knock_back_enchant";
     public static final int    KOCKBACK_CHANCE = 3;
 
-    public KnockBackEnchant(final Rarity rarity, final EquipmentSlotType[] slotTypes)
+    public KnockBackEnchant(final Enchantment.Rarity rarity, final EquipmentSlot[] slotTypes)
     {
         super(rarity, SHIELD, slotTypes);
         setRegistryName(NAME_ID);

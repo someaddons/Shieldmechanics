@@ -1,10 +1,9 @@
 package com.shieldmechanics.enchant;
 
 import com.shieldmechanics.Shieldmechanics;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,11 +12,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.minecraft.world.item.CreativeModeTab.TAB_COMBAT;
+
 @Mod.EventBusSubscriber(modid = Shieldmechanics.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Enchants
 {
-    public static EnchantmentType    SHIELD;
-    public static BlockDamageEnchant blockDamageEnchant;
+    public static EnchantmentCategory SHIELD;
+    public static BlockDamageEnchant  blockDamageEnchant;
     public static KnockBackEnchant   knockBackEnchant;
     public static SlownessEnchant    slownessEnchant;
     public static BlindEnchant       blindEnchant;
@@ -26,21 +27,21 @@ public class Enchants
     @SubscribeEvent
     public static void registerEnchants(final RegistryEvent.Register<Enchantment> event)
     {
-        SHIELD = EnchantmentType.create("shield", Shieldmechanics::isShield);
+        SHIELD = EnchantmentCategory.create("shield", Shieldmechanics::isShield);
 
-        blockDamageEnchant = new BlockDamageEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        blockDamageEnchant = new BlockDamageEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         event.getRegistry().register(blockDamageEnchant);
-        knockBackEnchant = new KnockBackEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        knockBackEnchant = new KnockBackEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         event.getRegistry().register(knockBackEnchant);
-        slownessEnchant = new SlownessEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        slownessEnchant = new SlownessEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         event.getRegistry().register(slownessEnchant);
-        blindEnchant = new BlindEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        blindEnchant = new BlindEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         event.getRegistry().register(blindEnchant);
-        lastResortEnchant = new LastResortEnchant(Enchantment.Rarity.RARE, new EquipmentSlotType[] {EquipmentSlotType.OFFHAND});
+        lastResortEnchant = new LastResortEnchant(Enchantment.Rarity.RARE, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         event.getRegistry().register(lastResortEnchant);
 
-        final List<EnchantmentType> combatTypes = new ArrayList<>(Arrays.asList(ItemGroup.TAB_COMBAT.getEnchantmentCategories()));
+        final List<EnchantmentCategory> combatTypes = new ArrayList<>(Arrays.asList(TAB_COMBAT.getEnchantmentCategories()));
         combatTypes.add(SHIELD);
-        ItemGroup.TAB_COMBAT.setEnchantmentCategories(combatTypes.toArray(new EnchantmentType[0]));
+        TAB_COMBAT.setEnchantmentCategories(combatTypes.toArray(new EnchantmentCategory[0]));
     }
 }

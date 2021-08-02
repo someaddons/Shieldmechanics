@@ -1,10 +1,10 @@
 package com.shieldmechanics;
 
 import com.shieldmechanics.enchant.BlockDamageEnchant;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -102,7 +102,7 @@ public class ShieldDataGatherer
     public static void detectItems()
     {
         boolean newEntries = false;
-        for (final Map.Entry<RegistryKey<Item>, Item> itemEntry : ForgeRegistries.ITEMS.getEntries())
+        for (final Map.Entry<ResourceKey<Item>, Item> itemEntry : ForgeRegistries.ITEMS.getEntries())
         {
             if (Shieldmechanics.isShield(itemEntry.getValue()))
             {

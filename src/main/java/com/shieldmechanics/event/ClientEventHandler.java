@@ -3,9 +3,9 @@ package com.shieldmechanics.event;
 import com.shieldmechanics.ShieldDataGatherer;
 import com.shieldmechanics.Shieldmechanics;
 import com.shieldmechanics.enchant.BlockDamageEnchant;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -31,14 +31,14 @@ public class ClientEventHandler
             }
 
             event.getToolTip()
-              .add(new StringTextComponent(
+              .add(new TextComponent(
                 "Damage reduction on block: " + (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
-                     .setStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
 
             event.getToolTip()
-              .add(new StringTextComponent(
+              .add(new TextComponent(
                 "Damage reduction while holding: " + data.onHoldDamageReductionPercent + "%")
-                     .setStyle(Style.EMPTY.withColor(TextFormatting.GREEN)));
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
         }
     }
 }

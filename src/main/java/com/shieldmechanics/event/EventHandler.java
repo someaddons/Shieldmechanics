@@ -3,14 +3,16 @@ package com.shieldmechanics.event;
 import com.shieldmechanics.ShieldDataGatherer;
 import com.shieldmechanics.Shieldmechanics;
 import com.shieldmechanics.enchant.*;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
+import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,8 +35,8 @@ public class EventHandler
         }
 
         if ((event.getAmount() > 0.0F && event.getEntityLiving().isDamageSourceBlocked(event.getSource()) && Shieldmechanics.isShield(event.getEntityLiving()
-                                                                                                               .getItemInHand(event.getEntityLiving().getUsedItemHand())
-                                                                                                                                        .getItem())))
+          .getItemInHand(event.getEntityLiving().getUsedItemHand())
+          .getItem())))
         {
             source = event.getSource();
             amount = event.getAmount();
@@ -45,7 +47,7 @@ public class EventHandler
     @SubscribeEvent
     public static void onEntityAttack(final LivingHurtEvent event)
     {
-        if (!(event.getEntity() instanceof PlayerEntity) && Shieldmechanics.config.getCommonConfig().playerOnly.get())
+        if (!(event.getEntity() instanceof Player) && Shieldmechanics.config.getCommonConfig().playerOnly.get())
         {
             return;
         }
@@ -70,13 +72,13 @@ public class EventHandler
                 if (Shieldmechanics.rand.nextInt(SlownessEnchant.APPLY_CHANCE) == 0
                       && EnchantmentHelper.getItemEnchantmentLevel(Enchants.slownessEnchant, shieldItem) > 0)
                 {
-                    ((LivingEntity) sourceEntity).addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 100));
+                    ((LivingEntity) sourceEntity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100));
                 }
 
                 if (Shieldmechanics.rand.nextInt(BlindEnchant.APPLY_CHANCE) == 0
                       && EnchantmentHelper.getItemEnchantmentLevel(Enchants.blindEnchant, shieldItem) > 0)
                 {
-                    ((LivingEntity) sourceEntity).addEffect(new EffectInstance(Effects.BLINDNESS, 100));
+                    ((LivingEntity) sourceEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
                 }
 
                 if (event.getEntityLiving().getHealth() < 10 && event.getEntityLiving().getAbsorptionAmount() == 0
@@ -88,9 +90,9 @@ public class EventHandler
             }
 
             // BLock case
-            if (event.getEntityLiving() instanceof PlayerEntity && Shieldmechanics.config.getCommonConfig().blockCooldown.get() > 0)
+            if (event.getEntityLiving() instanceof Player && Shieldmechanics.config.getCommonConfig().blockCooldown.get() > 0)
             {
-                ((PlayerEntity) event.getEntityLiving()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown.get());
+                ((Player) event.getEntityLiving()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown.get());
             }
 
             event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(shieldItem));

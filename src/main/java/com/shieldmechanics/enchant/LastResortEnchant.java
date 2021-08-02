@@ -1,9 +1,9 @@
 package com.shieldmechanics.enchant;
 
 import com.shieldmechanics.Shieldmechanics;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import static com.shieldmechanics.enchant.Enchants.SHIELD;
 
@@ -15,7 +15,7 @@ public class LastResortEnchant extends Enchantment
     private final       String NAME_ID      = "block_last_resort_enchant";
     public static final int    APPLY_CHANCE = 3;
 
-    public LastResortEnchant(final Rarity rarity, final EquipmentSlotType[] slotTypes)
+    public LastResortEnchant(final Rarity rarity, final EquipmentSlot[] slotTypes)
     {
         super(rarity, SHIELD, slotTypes);
         setRegistryName(NAME_ID);

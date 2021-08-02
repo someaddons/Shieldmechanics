@@ -1,10 +1,10 @@
 package com.shieldmechanics.enchant;
 
 import com.shieldmechanics.Shieldmechanics;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 import static com.shieldmechanics.enchant.Enchants.SHIELD;
 
@@ -19,7 +19,7 @@ public class BlockDamageEnchant extends Enchantment
     private final        String NAME_ID                       = "block_damage_enchant";
     private static final int    REDUCTION_BLOCK_BONUS_ENCHANT = 5;
 
-    public BlockDamageEnchant(final Rarity rarity, final EquipmentSlotType[] slotTypes)
+    public BlockDamageEnchant(final Rarity rarity, final EquipmentSlot[] slotTypes)
     {
         super(rarity, SHIELD, slotTypes);
         setRegistryName(NAME_ID);
