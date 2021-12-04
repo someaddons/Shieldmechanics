@@ -7,13 +7,13 @@ import com.shieldmechanics.event.ModEventHandler;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,7 +46,7 @@ public class Shieldmechanics
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(ClientEventHandler.class);
     }
 
-    private void setup(final FMLServerStartingEvent event)
+    private void setup(final ServerStartingEvent event)
     {
         ShieldDataGatherer.parseFromConfig();
         ShieldDataGatherer.detectItems();
@@ -55,11 +55,11 @@ public class Shieldmechanics
 
     public static boolean isShield(final Item item)
     {
-        return item instanceof ShieldItem || item.isShield(item.getDefaultInstance(), null);
+        return item instanceof ShieldItem || item.canPerformAction(item.getDefaultInstance(), net.minecraftforge.common.ToolActions.SHIELD_BLOCK);
     }
 
     public static boolean isShield(final ItemStack stack)
     {
-        return stack.getItem() instanceof ShieldItem || stack.getItem().isShield(stack, null);
+        return stack.getItem() instanceof ShieldItem || stack.getItem().canPerformAction(stack, net.minecraftforge.common.ToolActions.SHIELD_BLOCK);
     }
 }
