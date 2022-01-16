@@ -1,0 +1,12 @@
+{
+  "enchantment.shieldmechanics.block_damage_enchant": "블로킹 효과- 방패",
+  "enchantment.shieldmechanics.block_damage_enchant.desc": "차단된 데미지의 양이 증가합니다.",
+  "enchantment.shieldmechanics.block_knock_back_enchant": "넉백 효과 - 방패",
+  "enchantment.shieldmechanics.block_knock_back_enchant.desc": "블록에서 공격자를 넉백할 기회",
+  "enchantment.shieldmechanics.block_slowness_enchant": "느려짐 효과- 방패",
+  "enchantment.shieldmechanics.block_slowness_enchant.desc": "블록에서 공격자의 속도를 늦출 수 있는 기회",
+  "enchantment.shieldmechanics.block_blind_enchant": "실명 효과 - 방패",
+  "enchantment.shieldmechanics.block_blind_enchant.desc": "블록에서 공격자에게 실명 효과를 줄 기회",
+  "enchantment.shieldmechanics.block_last_resort_enchant": "마지막 수단 - 방패",
+  "enchantment.shieldmechanics.block_last_resort_enchant.desc": "블록에서 피가 없는 당신을 구출할 기회"
+}
