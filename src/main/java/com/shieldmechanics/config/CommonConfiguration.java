@@ -28,7 +28,7 @@ public class CommonConfiguration
             "minecraft:shield;65;15")
           , e -> e instanceof String && ((String) e).contains(":"));
 
-        builder.comment("Should the mechanic only affect players");
+        builder.comment("Should the mechanic changes only affect players");
         playerOnly = builder.define("playerOnly", false);
 
         builder.comment("Should blocking with a shield set it on cooldown(players only), values are in ticks. 20 ticks = 1 sec");
