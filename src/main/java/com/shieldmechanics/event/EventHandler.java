@@ -29,13 +29,13 @@ public class EventHandler
     @SubscribeEvent
     public static void onEntityAttack(final LivingAttackEvent event)
     {
-        if (event.getEntityLiving() == event.getSource().getEntity())
+        if (event.getEntity() == event.getSource().getEntity())
         {
             return;
         }
 
-        if ((event.getAmount() > 0.0F && event.getEntityLiving().isDamageSourceBlocked(event.getSource()) && Shieldmechanics.isShield(event.getEntityLiving()
-          .getItemInHand(event.getEntityLiving().getUsedItemHand())
+        if ((event.getAmount() > 0.0F && event.getEntity().isDamageSourceBlocked(event.getSource()) && Shieldmechanics.isShield(event.getEntity()
+          .getItemInHand(event.getEntity().getUsedItemHand())
           .getItem())))
         {
             source = event.getSource();
@@ -53,7 +53,7 @@ public class EventHandler
         }
 
 
-        final ItemStack shieldItem = event.getEntityLiving().getItemInHand(event.getEntityLiving().getUsedItemHand());
+        final ItemStack shieldItem = event.getEntity().getItemInHand(event.getEntity().getUsedItemHand());
 
         //Blocking
         if (event.getEntity() == current && event.getAmount() == 0 && event.getSource() == source)
@@ -81,18 +81,18 @@ public class EventHandler
                     ((LivingEntity) sourceEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
                 }
 
-                if (event.getEntityLiving().getHealth() < 10 && event.getEntityLiving().getAbsorptionAmount() == 0
+                if (event.getEntity().getHealth() < 10 && event.getEntity().getAbsorptionAmount() == 0
                       && Shieldmechanics.rand.nextInt(LastResortEnchant.APPLY_CHANCE) == 0
                       && EnchantmentHelper.getItemEnchantmentLevel(Enchants.lastResortEnchant, shieldItem) > 0)
                 {
-                    event.getEntityLiving().setAbsorptionAmount(6);
+                    event.getEntity().setAbsorptionAmount(6);
                 }
             }
 
             // BLock case
-            if (event.getEntityLiving() instanceof Player && Shieldmechanics.config.getCommonConfig().blockCooldown.get() > 0)
+            if (event.getEntity() instanceof Player && Shieldmechanics.config.getCommonConfig().blockCooldown.get() > 0)
             {
-                ((Player) event.getEntityLiving()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown.get());
+                ((Player) event.getEntity()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown.get());
             }
 
             event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(shieldItem));

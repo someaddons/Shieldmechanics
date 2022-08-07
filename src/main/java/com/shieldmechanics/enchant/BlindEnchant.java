@@ -12,13 +12,12 @@ public class BlindEnchant extends Enchantment
     /**
      * Enchant id
      */
-    private final       String NAME_ID      = "block_blind_enchant";
+    public static final String NAME_ID      = "block_blind_enchant";
     public static final int    APPLY_CHANCE = 5;
 
     public BlindEnchant(final Enchantment.Rarity rarity, final EquipmentSlot[] slotTypes)
     {
         super(rarity, SHIELD, slotTypes);
-        setRegistryName(NAME_ID);
     }
 
     @Override

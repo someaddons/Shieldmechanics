@@ -27,7 +27,7 @@ public class ShieldDataGatherer
      */
     public static float getBlockDamageReductionFor(final ItemStack stack)
     {
-        final ShieldData data = shields.get(stack.getItem().getRegistryName());
+        final ShieldData data = shields.get(ForgeRegistries.ITEMS.getKey(stack.getItem()));
         if (data == null)
         {
             return (100 - getDefaultBlockReductionPct(stack)) / 100f;
@@ -44,7 +44,7 @@ public class ShieldDataGatherer
      */
     public static float getHoldDamageReductionFor(final ItemStack stack)
     {
-        final ShieldData data = shields.get(stack.getItem().getRegistryName());
+        final ShieldData data = shields.get(ForgeRegistries.ITEMS.getKey(stack.getItem()));
         if (data == null)
         {
             return (100 - getDefaultHoldReductionPct(stack)) / 100f;
@@ -106,13 +106,15 @@ public class ShieldDataGatherer
         {
             if (Shieldmechanics.isShield(itemEntry.getValue()))
             {
-                if (!shields.containsKey(itemEntry.getValue().getRegistryName()))
+                if (!shields.containsKey(ForgeRegistries.ITEMS.getKey(itemEntry.getValue())))
                 {
-                    shields.put(itemEntry.getValue().getRegistryName(), ShieldData.generateForItem(itemEntry.getValue().getMaxDamage(itemEntry.getValue().getDefaultInstance())));
-                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + itemEntry.getValue().getRegistryName() + " with stats:"
+                    shields.put(ForgeRegistries.ITEMS.getKey(itemEntry.getValue()),
+                      ShieldData.generateForItem(itemEntry.getValue().getMaxDamage(itemEntry.getValue().getDefaultInstance())));
+                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + ForgeRegistries.ITEMS.getKey(itemEntry.getValue()) + " with stats:"
                                                   + " Durability: " + itemEntry.getValue().getMaxDamage(itemEntry.getValue().getDefaultInstance()) + " BlockDamageReduction: "
-                                                  + shields.get(itemEntry.getValue().getRegistryName()).onBlockDamageReductionPercent + " HoldDamageReduction: " + shields.get(
-                      itemEntry.getValue().getRegistryName()).onHoldDamageReductionPercent);
+                                                  + shields.get(ForgeRegistries.ITEMS.getKey(itemEntry.getValue())).onBlockDamageReductionPercent + " HoldDamageReduction: "
+                                                  + shields.get(
+                      ForgeRegistries.ITEMS.getKey(itemEntry.getValue())).onHoldDamageReductionPercent);
                     newEntries = true;
                 }
             }

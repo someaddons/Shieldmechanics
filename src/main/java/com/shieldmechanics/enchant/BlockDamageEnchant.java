@@ -16,13 +16,12 @@ public class BlockDamageEnchant extends Enchantment
     /**
      * Enchant id
      */
-    private final        String NAME_ID                       = "block_damage_enchant";
+    public static final  String NAME_ID                       = "block_damage_enchant";
     private static final int    REDUCTION_BLOCK_BONUS_ENCHANT = 5;
 
     public BlockDamageEnchant(final Rarity rarity, final EquipmentSlot[] slotTypes)
     {
         super(rarity, SHIELD, slotTypes);
-        setRegistryName(NAME_ID);
     }
 
     @Override

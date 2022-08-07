@@ -4,10 +4,11 @@ import com.shieldmechanics.ShieldDataGatherer;
 import com.shieldmechanics.Shieldmechanics;
 import com.shieldmechanics.enchant.BlockDamageEnchant;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ClientEventHandler
 {
@@ -24,30 +25,30 @@ public class ClientEventHandler
 
         if (Shieldmechanics.isShield(event.getItemStack()))
         {
-            final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(event.getItemStack().getItem().getRegistryName());
+            final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(ForgeRegistries.ITEMS.getKey(event.getItemStack().getItem()));
             if (data == null)
             {
                 event.getToolTip()
-                  .add(new TranslatableComponent(
-                    "shieldmechanics.blockdmgreduct", (ShieldDataGatherer.getDefaultBlockReductionPct(event.getItemStack())
-                                                         + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
+                  .add(Component.translatable(
+                      "shieldmechanics.blockdmgreduct", (ShieldDataGatherer.getDefaultBlockReductionPct(event.getItemStack())
+                                                           + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
 
                 event.getToolTip()
-                  .add(new TranslatableComponent(
-                    "shieldmechanics.holddmgreduct", ShieldDataGatherer.getDefaultHoldReductionPct(event.getItemStack()) + "%")
+                  .add(Component.translatable(
+                      "shieldmechanics.holddmgreduct", ShieldDataGatherer.getDefaultHoldReductionPct(event.getItemStack()) + "%")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
                 return;
             }
 
             event.getToolTip()
-              .add(new TranslatableComponent(
-                "shieldmechanics.blockdmgreduct", (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
+              .add(Component.translatable(
+                  "shieldmechanics.blockdmgreduct", (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
                 .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
 
             event.getToolTip()
-              .add(new TranslatableComponent(
-                "shieldmechanics.holddmgreduct", data.onHoldDamageReductionPercent + "%")
+              .add(Component.translatable(
+                  "shieldmechanics.holddmgreduct", data.onHoldDamageReductionPercent + "%")
                 .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
         }
     }

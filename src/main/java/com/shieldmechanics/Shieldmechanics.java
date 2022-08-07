@@ -1,6 +1,7 @@
 package com.shieldmechanics;
 
 import com.shieldmechanics.config.Configuration;
+import com.shieldmechanics.enchant.Enchants;
 import com.shieldmechanics.event.ClientEventHandler;
 import com.shieldmechanics.event.EventHandler;
 import com.shieldmechanics.event.ModEventHandler;
@@ -48,6 +49,7 @@ public class Shieldmechanics
 
     private void setup(final ServerStartingEvent event)
     {
+        Enchants.init();
         ShieldDataGatherer.parseFromConfig();
         ShieldDataGatherer.detectItems();
         LOGGER.info("Shield mechanics initialized");

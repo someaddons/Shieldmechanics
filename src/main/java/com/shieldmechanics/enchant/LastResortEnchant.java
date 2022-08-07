@@ -12,13 +12,12 @@ public class LastResortEnchant extends Enchantment
     /**
      * Enchant id
      */
-    private final       String NAME_ID      = "block_last_resort_enchant";
+    public static final String NAME_ID      = "block_last_resort_enchant";
     public static final int    APPLY_CHANCE = 3;
 
     public LastResortEnchant(final Rarity rarity, final EquipmentSlot[] slotTypes)
     {
         super(rarity, SHIELD, slotTypes);
-        setRegistryName(NAME_ID);
     }
 
     @Override
