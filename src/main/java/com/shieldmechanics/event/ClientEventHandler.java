@@ -32,24 +32,24 @@ public class ClientEventHandler
                   .add(Component.translatable(
                       "shieldmechanics.blockdmgreduct", (ShieldDataGatherer.getDefaultBlockReductionPct(event.getItemStack())
                                                            + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
-                    .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
+                    .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
                 event.getToolTip()
                   .add(Component.translatable(
                       "shieldmechanics.holddmgreduct", ShieldDataGatherer.getDefaultHoldReductionPct(event.getItemStack()) + "%")
-                    .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
+                    .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
                 return;
             }
 
             event.getToolTip()
               .add(Component.translatable(
                   "shieldmechanics.blockdmgreduct", (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getItemStack())) + "%")
-                .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
             event.getToolTip()
               .add(Component.translatable(
                   "shieldmechanics.holddmgreduct", data.onHoldDamageReductionPercent + "%")
-                .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
         }
     }
 }

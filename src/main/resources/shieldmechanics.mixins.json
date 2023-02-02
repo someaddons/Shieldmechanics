@@ -2,7 +2,7 @@
   "required": false,
   "package": "com.shieldmechanics.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "hostilevillages.refmap.json",
+  "refmap": "shieldmechanics.refmap.json",
   "mixins": [
   ],
   "client": [

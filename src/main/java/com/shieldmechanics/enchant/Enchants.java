@@ -2,19 +2,14 @@ package com.shieldmechanics.enchant;
 
 import com.shieldmechanics.Shieldmechanics;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static net.minecraft.world.item.CreativeModeTab.TAB_COMBAT;
 
 public class Enchants
 {
@@ -29,8 +24,8 @@ public class Enchants
 
     public static void init()
     {
+        ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         SHIELD = EnchantmentCategory.create("shield", Shieldmechanics::isShield);
-
         blockDamageEnchant = new BlockDamageEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         ENCHANTMENTS.register(BlockDamageEnchant.NAME_ID, () -> blockDamageEnchant);
         knockBackEnchant = new KnockBackEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
@@ -41,9 +36,14 @@ public class Enchants
         ENCHANTMENTS.register(BlindEnchant.NAME_ID, () -> blindEnchant);
         lastResortEnchant = new LastResortEnchant(Enchantment.Rarity.RARE, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         ENCHANTMENTS.register(LastResortEnchant.NAME_ID, () -> lastResortEnchant);
+    }
 
-        final List<EnchantmentCategory> combatTypes = new ArrayList<>(Arrays.asList(TAB_COMBAT.getEnchantmentCategories()));
-        combatTypes.add(SHIELD);
-        TAB_COMBAT.setEnchantmentCategories(combatTypes.toArray(new EnchantmentCategory[0]));
+    public static void initTab()
+    {
+        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blockDamageEnchant, blockDamageEnchant.getMaxLevel())));
+        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(knockBackEnchant, knockBackEnchant.getMaxLevel())));
+        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(slownessEnchant, slownessEnchant.getMaxLevel())));
+        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blindEnchant, blindEnchant.getMaxLevel())));
+        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(lastResortEnchant, lastResortEnchant.getMaxLevel())));
     }
 }
