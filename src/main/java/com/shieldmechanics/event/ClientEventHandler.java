@@ -6,9 +6,16 @@ import com.shieldmechanics.enchant.BlockDamageEnchant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import static com.shieldmechanics.enchant.Enchants.*;
+import static com.shieldmechanics.enchant.Enchants.lastResortEnchant;
 
 public class ClientEventHandler
 {

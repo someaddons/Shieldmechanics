@@ -1,7 +1,10 @@
 package com.shieldmechanics.enchant;
 
 import com.shieldmechanics.Shieldmechanics;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -10,6 +13,7 @@ import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class Enchants
 {
@@ -36,14 +40,5 @@ public class Enchants
         ENCHANTMENTS.register(BlindEnchant.NAME_ID, () -> blindEnchant);
         lastResortEnchant = new LastResortEnchant(Enchantment.Rarity.RARE, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
         ENCHANTMENTS.register(LastResortEnchant.NAME_ID, () -> lastResortEnchant);
-    }
-
-    public static void initTab()
-    {
-        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blockDamageEnchant, blockDamageEnchant.getMaxLevel())));
-        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(knockBackEnchant, knockBackEnchant.getMaxLevel())));
-        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(slownessEnchant, slownessEnchant.getMaxLevel())));
-        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blindEnchant, blindEnchant.getMaxLevel())));
-        CreativeModeTabs.COMBAT.getDisplayItems().add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(lastResortEnchant, lastResortEnchant.getMaxLevel())));
     }
 }

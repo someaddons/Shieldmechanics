@@ -8,7 +8,6 @@ import com.shieldmechanics.event.ModEventHandler;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -39,7 +38,6 @@ public class Shieldmechanics
         Mod.EventBusSubscriber.Bus.MOD.bus().get().register(ModEventHandler.class);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::tabSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         Enchants.init();
     }
@@ -48,12 +46,6 @@ public class Shieldmechanics
     public void clientSetup(FMLClientSetupEvent event)
     {
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(ClientEventHandler.class);
-    }
-
-    @SubscribeEvent
-    public void tabSetup(CreativeModeTabEvent.BuildContents event)
-    {
-        Enchants.initTab();
     }
 
     private void setup(final ServerStartingEvent event)
