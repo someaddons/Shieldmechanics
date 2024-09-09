@@ -14,12 +14,6 @@ import static com.shieldmechanics.enchant.Enchants.lastResortEnchant;
 public class ModEventHandler
 {
     @SubscribeEvent
-    public static void onConfigChanged(ModConfigEvent event)
-    {
-        ShieldDataGatherer.parseFromConfig();
-    }
-
-    @SubscribeEvent
     public static void fillCreativeTab(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey().equals(CreativeModeTabs.COMBAT))

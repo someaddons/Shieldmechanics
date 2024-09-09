@@ -56,7 +56,7 @@ public class ShieldDataGatherer
     public static void parseFromConfig()
     {
         shields = new HashMap<>();
-        for (final String entry : Shieldmechanics.config.getCommonConfig().shields.get())
+        for (final String entry : Shieldmechanics.config.getCommonConfig().shields)
         {
             final String[] splitEntry = entry.split(";");
             if (splitEntry.length != 3)
@@ -129,7 +129,8 @@ public class ShieldDataGatherer
                 configList.add(entry.getKey() + ";" + entry.getValue().onBlockDamageReductionPercent + ";" + entry.getValue().onHoldDamageReductionPercent);
             }
 
-            Shieldmechanics.config.getCommonConfig().shields.set(Arrays.asList(configList.toArray(new String[0])));
+            Shieldmechanics.config.getCommonConfig().shields = Arrays.asList(configList.toArray(new String[0]));
+            Shieldmechanics.config.save();
         }
     }
 
@@ -142,7 +143,7 @@ public class ShieldDataGatherer
     public static int getDefaultBlockReductionPct(final ItemStack stack)
     {
         final int durability = stack.getMaxDamage();
-        return (int) Math.min(Shieldmechanics.config.getCommonConfig().maxblockdamagereduction.get(), (durability / ShieldData.DEFAULT_SHIELD_DURABILITY) * 65);
+        return (int) Math.min(Shieldmechanics.config.getCommonConfig().maxblockdamagereduction, (durability / ShieldData.DEFAULT_SHIELD_DURABILITY) * 65);
     }
 
     /**
@@ -154,7 +155,7 @@ public class ShieldDataGatherer
     public static int getDefaultHoldReductionPct(final ItemStack stack)
     {
         final int durability = stack.getMaxDamage();
-        return (int) Math.min(Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction.get(), (durability / ShieldData.DEFAULT_SHIELD_DURABILITY) * 15);
+        return (int) Math.min(Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction, (durability / ShieldData.DEFAULT_SHIELD_DURABILITY) * 15);
     }
 
     /**
@@ -178,9 +179,9 @@ public class ShieldDataGatherer
 
         private ShieldData(final int onBlockDamageReductionPercent, final int onHoldDamageReductionPercent)
         {
-            this.onBlockDamageReductionPercent = Math.min(onBlockDamageReductionPercent, Shieldmechanics.config.getCommonConfig().maxblockdamagereduction.get());
+            this.onBlockDamageReductionPercent = Math.min(onBlockDamageReductionPercent, Shieldmechanics.config.getCommonConfig().maxblockdamagereduction);
             this.onBlockDamageReduction = Math.max(0, (100 - onBlockDamageReductionPercent) / 100f);
-            this.onHoldDamageReductionPercent = Math.min(onHoldDamageReductionPercent, Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction.get());
+            this.onHoldDamageReductionPercent = Math.min(onHoldDamageReductionPercent, Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction);
             this.onHoldDamageReduction = Math.max(0, (100 - onHoldDamageReductionPercent) / 100f);
         }
 
@@ -195,19 +196,19 @@ public class ShieldDataGatherer
 
             // Distribute points randomly
             double blockPercentBonus = Math.min(Math.max((Shieldmechanics.rand.nextInt(100) / 100.0), (Shieldmechanics.rand.nextInt(100)) / 100.0) * durabilityModifier,
-              Math.max(10.0, Shieldmechanics.config.getCommonConfig().maxblockdamagereduction.get() - DEFAULT_SHIELD_BLOCK_REDUCTION) / GAIN_FOR_100PERCENT);
+              Math.max(10.0, Shieldmechanics.config.getCommonConfig().maxblockdamagereduction - DEFAULT_SHIELD_BLOCK_REDUCTION) / GAIN_FOR_100PERCENT);
             double holdPercentBonus = Math.min((durabilityModifier - blockPercentBonus) / 2,
-              Math.max(1.0, Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction.get() - DEFAULT_SHIELD_HOLD_REDUCTION) / GAIN_FOR_100PERCENT);
+              Math.max(1.0, Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction - DEFAULT_SHIELD_HOLD_REDUCTION) / GAIN_FOR_100PERCENT);
 
             // Re-add remaining points
             blockPercentBonus += durabilityModifier - (holdPercentBonus + blockPercentBonus);
             blockPercentBonus = Math.min(blockPercentBonus,
-              Math.max(10.0, Shieldmechanics.config.getCommonConfig().maxblockdamagereduction.get() - DEFAULT_SHIELD_BLOCK_REDUCTION) / GAIN_FOR_100PERCENT);
+              Math.max(10.0, Shieldmechanics.config.getCommonConfig().maxblockdamagereduction - DEFAULT_SHIELD_BLOCK_REDUCTION) / GAIN_FOR_100PERCENT);
 
             // Re-add remaining points
             holdPercentBonus += (durabilityModifier - (holdPercentBonus + blockPercentBonus)) / 2;
             holdPercentBonus = Math.min(holdPercentBonus,
-              Math.max(1.0, Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction.get() - DEFAULT_SHIELD_HOLD_REDUCTION) / GAIN_FOR_100PERCENT);
+              Math.max(1.0, Shieldmechanics.config.getCommonConfig().maxpassivedamagereduction - DEFAULT_SHIELD_HOLD_REDUCTION) / GAIN_FOR_100PERCENT);
 
             final int blockReduction = DEFAULT_SHIELD_BLOCK_REDUCTION + (int) (GAIN_FOR_100PERCENT * blockPercentBonus);
             final int holdReduction = DEFAULT_SHIELD_HOLD_REDUCTION + (int) (GAIN_FOR_100PERCENT * holdPercentBonus);

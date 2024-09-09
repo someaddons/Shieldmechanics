@@ -1,6 +1,7 @@
 package com.shieldmechanics;
 
-import com.shieldmechanics.config.Configuration;
+import com.cupboard.config.CupboardConfig;
+import com.shieldmechanics.config.CommonConfiguration;
 import com.shieldmechanics.enchant.Enchants;
 import com.shieldmechanics.event.ClientEventHandler;
 import com.shieldmechanics.event.EventHandler;
@@ -29,12 +30,11 @@ public class Shieldmechanics
     public static final String MODID = "shieldmechanics";
 
     public static final Random        rand   = new Random();
-    public static final Logger        LOGGER = LogManager.getLogger();
-    public static       Configuration config = new Configuration();
+    public static final Logger                              LOGGER = LogManager.getLogger();
+    public static       CupboardConfig<CommonConfiguration> config = new CupboardConfig<>("shieldmechanics", new CommonConfiguration());
 
     public Shieldmechanics()
     {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, config.getCommonConfig().ForgeConfigSpecBuilder);
         Mod.EventBusSubscriber.Bus.MOD.bus().get().register(ModEventHandler.class);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::setup);
@@ -50,7 +50,7 @@ public class Shieldmechanics
 
     private void setup(final ServerStartingEvent event)
     {
-        ShieldDataGatherer.parseFromConfig();
+        config.getCommonConfig();
         ShieldDataGatherer.detectItems();
         LOGGER.info("Shield mechanics initialized");
     }

@@ -51,7 +51,7 @@ public class EventHandler
     @SubscribeEvent
     public static void onEntityAttack(final LivingHurtEvent event)
     {
-        if (!(event.getEntity() instanceof Player) && Shieldmechanics.config.getCommonConfig().playerOnly.get())
+        if (!(event.getEntity() instanceof Player) && Shieldmechanics.config.getCommonConfig().playerOnly)
         {
             return;
         }
@@ -94,9 +94,9 @@ public class EventHandler
             }
 
             // BLock case
-            if (event.getEntity() instanceof Player && Shieldmechanics.config.getCommonConfig().blockCooldown.get() > 0)
+            if (event.getEntity() instanceof Player && Shieldmechanics.config.getCommonConfig().blockCooldown > 0)
             {
-                ((Player) event.getEntity()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown.get());
+                ((Player) event.getEntity()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown);
             }
 
             event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(shieldItem));
