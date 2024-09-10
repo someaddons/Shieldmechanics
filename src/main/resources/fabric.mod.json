@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "shieldmechanics",
+  "version": "${version}",
+
+  "name": "shieldmechanics Mod",
+  "description": "",
+  "authors": [
+    ""
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "ARR",
+  "icon": "assets/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.shieldmechanics.Shieldmechanics"
+    ],
+    "client": [
+      "com.shieldmechanics.ShieldMechanicsClient"
+    ]
+  },
+  "mixins": [
+    "shieldmechanics.mixins.json"
+  ],
+  "accessWidener": "shieldmechanics.accessWidener",
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "cupboard": "*",
+    "minecraft": "1.20.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

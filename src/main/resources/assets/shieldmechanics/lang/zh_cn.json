@@ -1,0 +1,14 @@
+{
+  "enchantment.shieldmechanics.block_damage_enchant": "阻挡-盾",
+  "enchantment.shieldmechanics.block_damage_enchant.desc": "增加阻挡时减免伤害的量",
+  "enchantment.shieldmechanics.block_knock_back_enchant": "击退-盾",
+  "enchantment.shieldmechanics.block_knock_back_enchant.desc": "阻挡时有概率击退攻击者",
+  "enchantment.shieldmechanics.block_slowness_enchant": "缓慢-盾",
+  "enchantment.shieldmechanics.block_slowness_enchant.desc": "阻挡时有概率使攻击者减速",
+  "enchantment.shieldmechanics.block_blind_enchant": "失明-盾",
+  "enchantment.shieldmechanics.block_blind_enchant.desc": "阻挡时有概率使攻击者失明",
+  "enchantment.shieldmechanics.block_last_resort_enchant": "破釜沉舟-盾",
+  "enchantment.shieldmechanics.block_last_resort_enchant.desc": "低血量阻挡时有概率吸收伤害回复血量",
+  "shieldmechanics.blockdmgreduct": "阻挡时减少伤害：%s",
+  "shieldmechanics.holddmgreduct": "手持时减少伤害：%s"
+}
