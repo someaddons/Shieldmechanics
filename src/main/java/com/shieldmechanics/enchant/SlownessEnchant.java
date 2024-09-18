@@ -5,7 +5,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-import static com.shieldmechanics.enchant.Enchants.SHIELD;
+import static net.minecraft.world.item.enchantment.EnchantmentCategory.WEARABLE;
 
 public class SlownessEnchant extends Enchantment
 {
@@ -17,7 +17,7 @@ public class SlownessEnchant extends Enchantment
 
     public SlownessEnchant(final Enchantment.Rarity rarity, final EquipmentSlot[] slotTypes)
     {
-        super(rarity, SHIELD, slotTypes);
+        super(rarity, WEARABLE, slotTypes);
     }
 
     @Override
@@ -36,6 +36,18 @@ public class SlownessEnchant extends Enchantment
     public boolean canApplyAtEnchantingTable(ItemStack stack)
     {
         return Shieldmechanics.isShield(stack.getItem());
+    }
+
+    @Override
+    public int getMaxCost(int i)
+    {
+        return super.getMinCost(i) + 50;
+    }
+
+    @Override
+    public int getMinCost(int i)
+    {
+        return 15 + (i - 1) * 9;
     }
 
     @Override

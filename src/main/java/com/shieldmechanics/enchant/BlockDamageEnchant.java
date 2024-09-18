@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
-import static com.shieldmechanics.enchant.Enchants.SHIELD;
+import static net.minecraft.world.item.enchantment.EnchantmentCategory.WEARABLE;
 
 /**
  * Enchant for adding extra damage against raiders
@@ -21,7 +21,7 @@ public class BlockDamageEnchant extends Enchantment
 
     public BlockDamageEnchant(final Rarity rarity, final EquipmentSlot[] slotTypes)
     {
-        super(rarity, SHIELD, slotTypes);
+        super(rarity, WEARABLE, slotTypes);
     }
 
     @Override
@@ -48,14 +48,16 @@ public class BlockDamageEnchant extends Enchantment
         return 2;
     }
 
-    public int getMinCost(int p_77321_1_)
+    @Override
+    public int getMinCost(int i)
     {
-        return 100 + p_77321_1_ * 10;
+        return 15 + (i - 1) * 9;
     }
 
-    public int getMaxCost(int p_223551_1_)
+    @Override
+    public int getMaxCost(int i)
     {
-        return this.getMinCost(p_223551_1_) + 5;
+        return super.getMinCost(i) + 50;
     }
 
     /**

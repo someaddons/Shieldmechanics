@@ -5,7 +5,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-import static com.shieldmechanics.enchant.Enchants.SHIELD;
+import static net.minecraft.world.item.enchantment.EnchantmentCategory.WEARABLE;
 
 public class LastResortEnchant extends Enchantment
 {
@@ -17,7 +17,7 @@ public class LastResortEnchant extends Enchantment
 
     public LastResortEnchant(final Rarity rarity, final EquipmentSlot[] slotTypes)
     {
-        super(rarity, SHIELD, slotTypes);
+        super(rarity, WEARABLE, slotTypes);
     }
 
     @Override
