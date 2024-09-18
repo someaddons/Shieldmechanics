@@ -5,7 +5,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-import static com.shieldmechanics.enchant.Enchants.SHIELD;
+import static net.minecraft.world.item.enchantment.EnchantmentCategory.WEARABLE;
 
 /**
  * Enchant for adding extra damage against raiders
@@ -20,7 +20,7 @@ public class KnockBackEnchant extends Enchantment
 
     public KnockBackEnchant(final Rarity rarity, final EquipmentSlot[] slotTypes)
     {
-        super(rarity, SHIELD, slotTypes);
+        super(rarity, WEARABLE, slotTypes);
     }
 
     @Override
@@ -33,6 +33,18 @@ public class KnockBackEnchant extends Enchantment
     public boolean canEnchant(ItemStack stack)
     {
         return Shieldmechanics.isShield(stack.getItem());
+    }
+
+    @Override
+    public int getMinCost(int i)
+    {
+        return 15 + (i - 1) * 9;
+    }
+
+    @Override
+    public int getMaxCost(int i)
+    {
+        return super.getMinCost(i) + 50;
     }
 
     @Override

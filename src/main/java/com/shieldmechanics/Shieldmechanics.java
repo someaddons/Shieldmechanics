@@ -5,6 +5,8 @@ import com.shieldmechanics.compat.FabricShieldLibCompat;
 import com.shieldmechanics.enchant.Enchants;
 import com.shieldmechanics.event.ModEventHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -57,9 +59,10 @@ public class Shieldmechanics implements ModInitializer
             LOGGER.info("Shield lib compat init");
         }
 
+        ClientLifecycleEvents.CLIENT_STARTED.register(a -> ShieldDataGatherer.detectItems());
+        ServerLifecycleEvents.SERVER_STARTED.register(a -> ShieldDataGatherer.detectItems());
+
         Enchants.init();
-        config.getCommonConfig();
-        ShieldDataGatherer.detectItems();
         LOGGER.info("Shield mechanics initialized");
         ModEventHandler.fillCreativeTab();
     }

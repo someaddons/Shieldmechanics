@@ -5,11 +5,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class Enchants
 {
-    public static EnchantmentCategory SHIELD;
     public static BlockDamageEnchant  blockDamageEnchant;
     public static KnockBackEnchant    knockBackEnchant;
     public static SlownessEnchant     slownessEnchant;
