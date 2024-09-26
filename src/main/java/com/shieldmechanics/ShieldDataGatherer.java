@@ -1,11 +1,14 @@
 package com.shieldmechanics;
 
 import com.shieldmechanics.enchant.BlockDamageEnchant;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 import java.util.*;
 
@@ -25,15 +28,16 @@ public class ShieldDataGatherer
      * @param stack item stack
      * @return damage modifier
      */
-    public static float getBlockDamageReductionFor(final ItemStack stack)
+    public static float getBlockDamageReductionFor(final Level level, final ItemStack stack)
     {
-        final ShieldData data = shields.get(ForgeRegistries.ITEMS.getKey(stack.getItem()));
+        final ShieldData data = shields.get(BuiltInRegistries.ITEM.getKey(stack.getItem()));
         if (data == null)
         {
             return (100 - getDefaultBlockReductionPct(stack)) / 100f;
         }
 
-        return Math.max(0f, data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(stack) / 100f));
+        return Math.max(0f,
+          data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(level.registryAccess().registry(Registries.ENCHANTMENT).get(), stack) / 100f));
     }
 
     /**
@@ -44,7 +48,7 @@ public class ShieldDataGatherer
      */
     public static float getHoldDamageReductionFor(final ItemStack stack)
     {
-        final ShieldData data = shields.get(ForgeRegistries.ITEMS.getKey(stack.getItem()));
+        final ShieldData data = shields.get(BuiltInRegistries.ITEM.getKey(stack.getItem()));
         if (data == null)
         {
             return (100 - getDefaultHoldReductionPct(stack)) / 100f;
@@ -72,8 +76,8 @@ public class ShieldDataGatherer
                 continue;
             }
 
-            final Item item = ForgeRegistries.ITEMS.getValue(main);
-            if (item == null)
+            final Item item = BuiltInRegistries.ITEM.get(main);
+            if (item == Items.AIR)
             {
                 Shieldmechanics.LOGGER.error("Config entry could not be parsed, not a valid item" + splitEntry[0]);
                 continue;
@@ -102,19 +106,19 @@ public class ShieldDataGatherer
     public static void detectItems()
     {
         boolean newEntries = false;
-        for (final Map.Entry<ResourceKey<Item>, Item> itemEntry : ForgeRegistries.ITEMS.getEntries())
+        for (final Map.Entry<ResourceKey<Item>, Item> itemEntry : BuiltInRegistries.ITEM.entrySet())
         {
-            if (Shieldmechanics.isShield(itemEntry.getValue()))
+            if (Shieldmechanics.isShield(itemEntry.getValue().getDefaultInstance()))
             {
-                if (!shields.containsKey(ForgeRegistries.ITEMS.getKey(itemEntry.getValue())))
+                if (!shields.containsKey(BuiltInRegistries.ITEM.getKey(itemEntry.getValue())))
                 {
-                    shields.put(ForgeRegistries.ITEMS.getKey(itemEntry.getValue()),
+                    shields.put(BuiltInRegistries.ITEM.getKey(itemEntry.getValue()),
                       ShieldData.generateForItem(itemEntry.getValue().getMaxDamage(itemEntry.getValue().getDefaultInstance())));
-                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + ForgeRegistries.ITEMS.getKey(itemEntry.getValue()) + " with stats:"
+                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + BuiltInRegistries.ITEM.getKey(itemEntry.getValue()) + " with stats:"
                                                   + " Durability: " + itemEntry.getValue().getMaxDamage(itemEntry.getValue().getDefaultInstance()) + " BlockDamageReduction: "
-                                                  + shields.get(ForgeRegistries.ITEMS.getKey(itemEntry.getValue())).onBlockDamageReductionPercent + " HoldDamageReduction: "
+                                                  + shields.get(BuiltInRegistries.ITEM.getKey(itemEntry.getValue())).onBlockDamageReductionPercent + " HoldDamageReduction: "
                                                   + shields.get(
-                      ForgeRegistries.ITEMS.getKey(itemEntry.getValue())).onHoldDamageReductionPercent);
+                      BuiltInRegistries.ITEM.getKey(itemEntry.getValue())).onHoldDamageReductionPercent);
                     newEntries = true;
                 }
             }

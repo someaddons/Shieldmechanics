@@ -1,44 +1,39 @@
 package com.shieldmechanics.enchant;
 
 import com.shieldmechanics.Shieldmechanics;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.ServerLifecycleHooks;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Enchants
 {
-    public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Shieldmechanics.MODID);
+    public static final ResourceKey<Enchantment> blockDamageEnchant =
+      ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Shieldmechanics.MODID, "block_damage_enchant"));
+    public static final ResourceKey<Enchantment> knockBackEnchant   =
+      ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Shieldmechanics.MODID, "block_knock_back_enchant"));
+    public static final ResourceKey<Enchantment> slownessEnchant    =
+      ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Shieldmechanics.MODID, "block_slowness_enchant"));
+    public static final ResourceKey<Enchantment> blindEnchant       =
+      ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Shieldmechanics.MODID, "block_blind_enchant"));
+    public static final ResourceKey<Enchantment> lastResortEnchant  =
+      ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Shieldmechanics.MODID, "block_last_resort_enchant"));
 
-    public static EnchantmentCategory SHIELD;
-    public static BlockDamageEnchant  blockDamageEnchant;
-    public static KnockBackEnchant    knockBackEnchant;
-    public static SlownessEnchant     slownessEnchant;
-    public static BlindEnchant        blindEnchant;
-    public static LastResortEnchant   lastResortEnchant;
+    public static       Set<ResourceKey<Enchantment>> ALL             = new HashSet<>();
+    public static final TagKey<Item>                  SHIELD_ITEM_TAG = ItemTags.create(ResourceLocation.fromNamespaceAndPath(Shieldmechanics.MODID, "shields"));
 
     public static void init()
     {
-        ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        SHIELD = EnchantmentCategory.create("shield", Shieldmechanics::isShield);
-        blockDamageEnchant = new BlockDamageEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
-        ENCHANTMENTS.register(BlockDamageEnchant.NAME_ID, () -> blockDamageEnchant);
-        knockBackEnchant = new KnockBackEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
-        ENCHANTMENTS.register(KnockBackEnchant.NAME_ID, () -> knockBackEnchant);
-        slownessEnchant = new SlownessEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
-        ENCHANTMENTS.register(SlownessEnchant.NAME_ID, () -> slownessEnchant);
-        blindEnchant = new BlindEnchant(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
-        ENCHANTMENTS.register(BlindEnchant.NAME_ID, () -> blindEnchant);
-        lastResortEnchant = new LastResortEnchant(Enchantment.Rarity.RARE, new EquipmentSlot[] {EquipmentSlot.OFFHAND});
-        ENCHANTMENTS.register(LastResortEnchant.NAME_ID, () -> lastResortEnchant);
+        ALL.add(blockDamageEnchant);
+        ALL.add(knockBackEnchant);
+        ALL.add(slownessEnchant);
+        ALL.add(blindEnchant);
+        ALL.add(lastResortEnchant);
     }
 }

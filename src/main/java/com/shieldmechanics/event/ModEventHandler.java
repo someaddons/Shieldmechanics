@@ -1,12 +1,13 @@
 package com.shieldmechanics.event;
 
-import com.shieldmechanics.ShieldDataGatherer;
+import com.shieldmechanics.Shieldmechanics;
+import com.shieldmechanics.enchant.Enchants;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 import static com.shieldmechanics.enchant.Enchants.*;
 import static com.shieldmechanics.enchant.Enchants.lastResortEnchant;
@@ -18,11 +19,20 @@ public class ModEventHandler
     {
         if (event.getTabKey().equals(CreativeModeTabs.COMBAT))
         {
-            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blockDamageEnchant, blockDamageEnchant.getMaxLevel())));
-            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(knockBackEnchant, knockBackEnchant.getMaxLevel())));
-            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(slownessEnchant, slownessEnchant.getMaxLevel())));
-            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blindEnchant, blindEnchant.getMaxLevel())));
-            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(lastResortEnchant, lastResortEnchant.getMaxLevel())));
+            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(event.getParameters().holders().lookup(Registries.ENCHANTMENT).get().getOrThrow(
+              blockDamageEnchant), 2)));
+            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(event.getParameters().holders().lookup(Registries.ENCHANTMENT)
+                                                                                          .get()
+                                                                                          .getOrThrow(knockBackEnchant), 1)));
+            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(event.getParameters().holders().lookup(Registries.ENCHANTMENT)
+                                                                                          .get()
+                                                                                          .getOrThrow(slownessEnchant), 1)));
+            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(event.getParameters().holders().lookup(Registries.ENCHANTMENT)
+                                                                                          .get()
+                                                                                          .getOrThrow(blindEnchant), 1)));
+            event.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(event.getParameters().holders().lookup(Registries.ENCHANTMENT)
+                                                                                          .get()
+                                                                                          .getOrThrow(lastResortEnchant), 1)));
         }
     }
 }

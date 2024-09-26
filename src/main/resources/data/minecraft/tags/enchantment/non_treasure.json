@@ -1,0 +1,8 @@
+{
+  "values": [
+    "shieldmechanics:block_blind_enchant",
+    "shieldmechanics:block_damage_enchant",
+    "shieldmechanics:block_knock_back_enchant",
+    "shieldmechanics:block_slowness_enchant"
+  ]
+}
