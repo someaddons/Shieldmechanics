@@ -5,8 +5,10 @@ import com.shieldmechanics.Shieldmechanics;
 import com.shieldmechanics.enchant.BlockDamageEnchant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public class ClientEventHandler
 {
     private static boolean init = false;
 
-    public static void addTooltip(final ItemStack stack, List<Component> toolTips)
+    public static void addTooltip(final Item.TooltipContext tooltipContext, final ItemStack stack, List<Component> toolTips)
     {
         if (!init)
         {
@@ -31,7 +33,8 @@ public class ClientEventHandler
                 toolTips
                   .add(Component.translatable(
                       "shieldmechanics.blockdmgreduct", (ShieldDataGatherer.getDefaultBlockReductionPct(stack)
-                                                           + BlockDamageEnchant.getAdditionalBlockChanceFor(stack)) + "%")
+                                                           + BlockDamageEnchant.getAdditionalBlockChanceFor(tooltipContext.registries().lookup(Registries.ENCHANTMENT).get(),
+                        stack)) + "%")
                          .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
                 toolTips
@@ -43,7 +46,9 @@ public class ClientEventHandler
 
             toolTips
               .add(Component.translatable(
-                  "shieldmechanics.blockdmgreduct", (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(stack)) + "%")
+                  "shieldmechanics.blockdmgreduct",
+                  (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(tooltipContext.registries().lookup(Registries.ENCHANTMENT).get(),
+                    stack)) + "%")
                      .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
             toolTips

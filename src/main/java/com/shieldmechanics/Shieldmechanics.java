@@ -32,6 +32,11 @@ public class Shieldmechanics implements ModInitializer
 
     public static boolean isShield(final Item item)
     {
+        if (item.getDefaultInstance().is(Enchants.SHIELD_ITEM_TAG))
+        {
+            return true;
+        }
+
         for (final Class clazz : shieldItemTypes)
         {
             if (clazz.isInstance(item))
@@ -69,6 +74,6 @@ public class Shieldmechanics implements ModInitializer
 
     public static ResourceLocation id(String name)
     {
-        return new ResourceLocation(MODID, name);
+        return ResourceLocation.fromNamespaceAndPath(MODID, name);
     }
 }

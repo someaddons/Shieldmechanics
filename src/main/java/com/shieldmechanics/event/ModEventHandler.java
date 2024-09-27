@@ -30,11 +30,21 @@ public class ModEventHandler
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_TAB_ID, CREATIVE_TAB);
 
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_TAB_ID).register(itemGroup -> {
-            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blockDamageEnchant, blockDamageEnchant.getMaxLevel())));
-            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(knockBackEnchant, knockBackEnchant.getMaxLevel())));
-            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(slownessEnchant, slownessEnchant.getMaxLevel())));
-            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(blindEnchant, blindEnchant.getMaxLevel())));
-            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(lastResortEnchant, lastResortEnchant.getMaxLevel())));
+            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(itemGroup.getContext().holders().lookup(Registries.ENCHANTMENT)
+                                                                                              .get()
+                                                                                              .getOrThrow(blockDamageEnchant), 2)));
+            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(itemGroup.getContext().holders().lookup(Registries.ENCHANTMENT)
+                                                                                              .get()
+                                                                                              .getOrThrow(knockBackEnchant), 1)));
+            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(itemGroup.getContext().holders().lookup(Registries.ENCHANTMENT)
+                                                                                              .get()
+                                                                                              .getOrThrow(slownessEnchant), 1)));
+            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(itemGroup.getContext().holders().lookup(Registries.ENCHANTMENT)
+                                                                                              .get()
+                                                                                              .getOrThrow(blindEnchant), 1)));
+            itemGroup.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(itemGroup.getContext().holders().lookup(Registries.ENCHANTMENT)
+                                                                                              .get()
+                                                                                              .getOrThrow(lastResortEnchant), 1)));
         });
     }
 }

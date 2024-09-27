@@ -2,11 +2,13 @@ package com.shieldmechanics;
 
 import com.shieldmechanics.enchant.BlockDamageEnchant;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 import java.util.*;
 
@@ -26,7 +28,7 @@ public class ShieldDataGatherer
      * @param stack item stack
      * @return damage modifier
      */
-    public static float getBlockDamageReductionFor(final ItemStack stack)
+    public static float getBlockDamageReductionFor(final Level level, final ItemStack stack)
     {
         final ShieldData data = shields.get(BuiltInRegistries.ITEM.getKey(stack.getItem()));
         if (data == null)
@@ -34,7 +36,8 @@ public class ShieldDataGatherer
             return (100 - getDefaultBlockReductionPct(stack)) / 100f;
         }
 
-        return Math.max(0f, data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(stack) / 100f));
+        return Math.max(0f,
+          data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(level.registryAccess().registry(Registries.ENCHANTMENT).get(), stack) / 100f));
     }
 
     /**
@@ -105,14 +108,14 @@ public class ShieldDataGatherer
         boolean newEntries = false;
         for (final Map.Entry<ResourceKey<Item>, Item> itemEntry : BuiltInRegistries.ITEM.entrySet())
         {
-            if (Shieldmechanics.isShield(itemEntry.getValue()))
+            if (Shieldmechanics.isShield(itemEntry.getValue().getDefaultInstance()))
             {
                 if (!shields.containsKey(BuiltInRegistries.ITEM.getKey(itemEntry.getValue())))
                 {
                     shields.put(BuiltInRegistries.ITEM.getKey(itemEntry.getValue()),
-                      ShieldData.generateForItem(itemEntry.getValue().getMaxDamage()));
+                      ShieldData.generateForItem(itemEntry.getValue().getDefaultInstance().getMaxDamage()));
                     Shieldmechanics.LOGGER.info("Found new shield item, adding: " + BuiltInRegistries.ITEM.getKey(itemEntry.getValue()) + " with stats:"
-                                                  + " Durability: " + itemEntry.getValue().getMaxDamage() + " BlockDamageReduction: "
+                                                  + " Durability: " + itemEntry.getValue().getDefaultInstance().getMaxDamage() + " BlockDamageReduction: "
                                                   + shields.get(BuiltInRegistries.ITEM.getKey(itemEntry.getValue())).onBlockDamageReductionPercent + " HoldDamageReduction: "
                                                   + shields.get(
                       BuiltInRegistries.ITEM.getKey(itemEntry.getValue())).onHoldDamageReductionPercent);
