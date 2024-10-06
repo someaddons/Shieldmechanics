@@ -110,15 +110,14 @@ public class ShieldDataGatherer
         {
             if (Shieldmechanics.isShield(itemEntry.getValue().getDefaultInstance()))
             {
-                if (!shields.containsKey(BuiltInRegistries.ITEM.getKey(itemEntry.getValue())))
+                if (!shields.containsKey(itemEntry.getKey().location()))
                 {
-                    shields.put(BuiltInRegistries.ITEM.getKey(itemEntry.getValue()),
-                      ShieldData.generateForItem(itemEntry.getValue().getMaxDamage(itemEntry.getValue().getDefaultInstance())));
-                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + BuiltInRegistries.ITEM.getKey(itemEntry.getValue()) + " with stats:"
-                                                  + " Durability: " + itemEntry.getValue().getMaxDamage(itemEntry.getValue().getDefaultInstance()) + " BlockDamageReduction: "
-                                                  + shields.get(BuiltInRegistries.ITEM.getKey(itemEntry.getValue())).onBlockDamageReductionPercent + " HoldDamageReduction: "
-                                                  + shields.get(
-                      BuiltInRegistries.ITEM.getKey(itemEntry.getValue())).onHoldDamageReductionPercent);
+                    ShieldData newData = ShieldData.generateForItem(itemEntry.getValue().getDefaultInstance().getMaxDamage());
+                    shields.put(itemEntry.getKey().location(), newData);
+                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + itemEntry.getKey().location() + " with stats:"
+                                                  + " Durability: " + itemEntry.getValue().getDefaultInstance().getMaxDamage() + " BlockDamageReduction: "
+                                                  + newData.onBlockDamageReductionPercent + " HoldDamageReduction: "
+                                                  + newData.onHoldDamageReductionPercent);
                     newEntries = true;
                 }
             }
