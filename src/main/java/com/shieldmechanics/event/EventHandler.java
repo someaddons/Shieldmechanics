@@ -94,9 +94,17 @@ public class EventHandler
             }
 
             // BLock case
-            if (event.getEntity() instanceof Player && Shieldmechanics.config.getCommonConfig().blockCooldown > 0)
+            if (event.getEntity() instanceof Player player && Shieldmechanics.config.getCommonConfig().blockCooldown > 0)
             {
-                ((Player) event.getEntity()).getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown);
+                player.getCooldowns().addCooldown(shieldItem.getItem(), Shieldmechanics.config.getCommonConfig().blockCooldown);
+                player.stopUsingItem();
+            }
+
+            if (Shieldmechanics.config.getCommonConfig().debugLogging)
+            {
+                Shieldmechanics.LOGGER.warn(
+                    "entity:" + event.getEntity().getDisplayName().getString() + " Shield block damage reduction to:" + ShieldDataGatherer.getBlockDamageReductionFor(
+                        shieldItem));
             }
 
             event.setAmount(amount * ShieldDataGatherer.getBlockDamageReductionFor(shieldItem));
@@ -105,6 +113,12 @@ public class EventHandler
         else if (Shieldmechanics.isShield(shieldItem))
         {
             // No block mainhand
+            if (Shieldmechanics.config.getCommonConfig().debugLogging)
+            {
+                Shieldmechanics.LOGGER.warn(
+                    "entity:" + event.getEntity().getDisplayName().getString() + "Shield block passive damage reduction to:" + ShieldDataGatherer.getHoldDamageReductionFor(
+                        shieldItem));
+            }
             event.setAmount(event.getAmount() * ShieldDataGatherer.getHoldDamageReductionFor(shieldItem));
         }
     }
