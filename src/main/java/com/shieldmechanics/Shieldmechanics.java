@@ -36,7 +36,6 @@ public class Shieldmechanics
     public Shieldmechanics(IEventBus modEventBus, ModContainer modContainer)
     {
         modEventBus.register(ModEventHandler.class);
-        NeoForge.EVENT_BUS.register(EventHandler.class);
         NeoForge.EVENT_BUS.addListener(this::setup);
         modEventBus.addListener(this::clientSetup);
         Enchants.init();
