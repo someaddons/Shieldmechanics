@@ -17,6 +17,7 @@ public class CommonConfiguration implements ICommonConfig
     public int          blockCooldown             = 5;
     public int          maxblockdamagereduction   = 85;
     public int          maxpassivedamagereduction = 25;
+    public boolean debugLogging = false;
 
     public CommonConfiguration()
     {
@@ -60,6 +61,10 @@ public class CommonConfiguration implements ICommonConfig
         entry5.addProperty("maxpassivedamagereduction", maxpassivedamagereduction);
         root.add("maxpassivedamagereduction", entry5);
 
+        final JsonObject entry6 = new JsonObject();
+        entry6.addProperty("desc:", "Enables debug logging of block damage reduction. Default:false");
+        entry6.addProperty("debugLogging", debugLogging);
+        root.add("debugLogging", entry6);
 
         return root;
     }
@@ -78,5 +83,6 @@ public class CommonConfiguration implements ICommonConfig
         }
 
         ShieldDataGatherer.parseFromConfig();
+        debugLogging = data.get("debugLogging").getAsJsonObject().get("debugLogging").getAsBoolean();
     }
 }
