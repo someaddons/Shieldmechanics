@@ -10,9 +10,10 @@
     "ShieldItemMixin"
   ],
   "client": [
+    "ShieldRenderMixin"
   ],
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   },
   "minVersion": "0.8"
 }

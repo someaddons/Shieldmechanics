@@ -4,8 +4,6 @@ import com.cupboard.config.CupboardConfig;
 import com.shieldmechanics.config.CommonConfiguration;
 import com.shieldmechanics.enchant.Enchants;
 import com.shieldmechanics.event.ClientEventHandler;
-import com.shieldmechanics.event.EventHandler;
-import com.shieldmechanics.event.ModEventHandler;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.neoforged.bus.api.IEventBus;
@@ -35,7 +33,6 @@ public class Shieldmechanics
 
     public Shieldmechanics(IEventBus modEventBus, ModContainer modContainer)
     {
-        modEventBus.register(ModEventHandler.class);
         NeoForge.EVENT_BUS.addListener(this::setup);
         modEventBus.addListener(this::clientSetup);
         Enchants.init();
