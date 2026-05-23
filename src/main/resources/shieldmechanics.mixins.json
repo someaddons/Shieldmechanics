@@ -11,7 +11,8 @@
     "ShieldItemMixin"
   ],
   "client": [
-    "ItemStackTooltipMixin"
+    "ItemStackTooltipMixin",
+    "ShieldRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 0

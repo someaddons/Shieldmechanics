@@ -121,7 +121,8 @@ public class EventHandler
 
             if (Shieldmechanics.config.getCommonConfig().debugLogging)
             {
-                Shieldmechanics.LOGGER.warn("entity:" + entity.getDisplayName().getString() + " Shield block damage reduction to:" + ShieldDataGatherer.getBlockDamageReductionFor(
+                Shieldmechanics.LOGGER.warn(
+                    "entity:" + entity.getDisplayName().getString() + " Shield block damage reduction factor:" + ShieldDataGatherer.getBlockDamageReductionFor(
                     entity.level(),
                     shieldItem));
             }

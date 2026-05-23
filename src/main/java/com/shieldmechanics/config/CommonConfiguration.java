@@ -18,6 +18,7 @@ public class CommonConfiguration implements ICommonConfig
     public int          maxblockdamagereduction   = 85;
     public int          maxpassivedamagereduction = 25;
     public boolean debugLogging = false;
+    public boolean hideinactiveshield = false;
 
     public CommonConfiguration()
     {
@@ -26,6 +27,11 @@ public class CommonConfiguration implements ICommonConfig
     public JsonObject serialize()
     {
         final JsonObject root = new JsonObject();
+
+        final JsonObject entry17 = new JsonObject();
+        entry17.addProperty("desc:", "Should the shield in offhand be hidden while not blocking, default:false");
+        entry17.addProperty("hideinactiveshield", hideinactiveshield);
+        root.add("hideinactiveshield", entry17);
 
         final JsonObject entry = new JsonObject();
         entry.addProperty("desc:",
@@ -84,5 +90,6 @@ public class CommonConfiguration implements ICommonConfig
 
         ShieldDataGatherer.parseFromConfig();
         debugLogging = data.get("debugLogging").getAsJsonObject().get("debugLogging").getAsBoolean();
+        hideinactiveshield = data.get("hideinactiveshield").getAsJsonObject().get("hideinactiveshield").getAsBoolean();
     }
 }
