@@ -25,11 +25,11 @@ public class BlockDamageEnchant
      */
     public static int getAdditionalBlockChanceFor(final Registry<Enchantment> registry, final ItemStack stack)
     {
-        return EnchantmentHelper.getItemEnchantmentLevel(registry.getHolderOrThrow(Enchants.blockDamageEnchant), stack) * REDUCTION_BLOCK_BONUS_ENCHANT;
+        return EnchantmentHelper.getItemEnchantmentLevel(registry.getOrThrow(Enchants.blockDamageEnchant), stack) * REDUCTION_BLOCK_BONUS_ENCHANT;
     }
 
-    public static int getAdditionalBlockChanceFor(final HolderLookup.RegistryLookup<Enchantment> holderLookup, final ItemStack stack)
+    public static int getAdditionalBlockChanceFor(final HolderLookup.RegistryLookup<Enchantment> registry, final ItemStack stack)
     {
-        return EnchantmentHelper.getItemEnchantmentLevel(holderLookup.getOrThrow(Enchants.blockDamageEnchant), stack) * REDUCTION_BLOCK_BONUS_ENCHANT;
+        return EnchantmentHelper.getItemEnchantmentLevel(registry.getOrThrow(Enchants.blockDamageEnchant), stack) * REDUCTION_BLOCK_BONUS_ENCHANT;
     }
 }

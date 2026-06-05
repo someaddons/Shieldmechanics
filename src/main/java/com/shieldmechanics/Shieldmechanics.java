@@ -1,21 +1,22 @@
 package com.shieldmechanics;
 
 import com.cupboard.config.CupboardConfig;
+import com.cupboard.util.ResourceLocation;
 import com.shieldmechanics.compat.FabricShieldLibCompat;
 import com.shieldmechanics.enchant.Enchants;
 import com.shieldmechanics.event.ModEventHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.enchantment.Enchantable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Shieldmechanics implements ModInitializer
@@ -25,38 +26,25 @@ public class Shieldmechanics implements ModInitializer
     public static final Random                                                         rand   = new Random();
     public static final Logger                                                         LOGGER = LogManager.getLogger();
     public static       CupboardConfig<com.shieldmechanics.config.CommonConfiguration> config =
-      new CupboardConfig<>("shieldmechanics", new com.shieldmechanics.config.CommonConfiguration());
+        new CupboardConfig<>("shieldmechanics", new com.shieldmechanics.config.CommonConfiguration());
 
-    public static List<Class> shieldItemTypes = new ArrayList<>();
-
-    public static boolean isShield(final Item item)
+    private void modifyDefaultComponents(DefaultItemComponentEvents.ModifyContext context)
     {
-        if (item.getDefaultInstance().is(Enchants.SHIELD_ITEM_TAG))
-        {
-            return true;
-        }
-
-        for (final Class clazz : shieldItemTypes)
-        {
-            if (clazz.isInstance(item))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        context.modify(item -> {
+            final DataComponentMap c = item.components();
+            return c.has(DataComponents.BLOCKS_ATTACKS) && (c.has(DataComponents.ENCHANTABLE) && c.get(DataComponents.ENCHANTABLE).value() < 14
+                || !c.has(DataComponents.ENCHANTABLE));
+        }, (builder, item) -> builder.set(DataComponents.ENCHANTABLE, new Enchantable(14)));
     }
 
     public static boolean isShield(final ItemStack stack)
     {
-        return isShield(stack.getItem());
+        return !stack.isEmpty() && (stack.getItem() instanceof ShieldItem || stack.has(DataComponents.BLOCKS_ATTACKS));
     }
 
     @Override
     public void onInitialize()
     {
-        shieldItemTypes.add(ShieldItem.class);
-
         if (FabricLoader.getInstance().isModLoaded("fabricshieldlib"))
         {
             FabricShieldLibCompat.initCompat();
@@ -64,7 +52,7 @@ public class Shieldmechanics implements ModInitializer
         }
 
         ServerLifecycleEvents.SERVER_STARTED.register(a -> ShieldDataGatherer.detectItems());
-
+        DefaultItemComponentEvents.MODIFY.register(this::modifyDefaultComponents);
         Enchants.init();
         LOGGER.info("Shield mechanics initialized");
         ModEventHandler.fillCreativeTab();

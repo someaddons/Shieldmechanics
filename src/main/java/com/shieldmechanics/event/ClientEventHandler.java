@@ -4,12 +4,14 @@ import com.shieldmechanics.ShieldDataGatherer;
 import com.shieldmechanics.Shieldmechanics;
 import com.shieldmechanics.enchant.BlockDamageEnchant;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
 
@@ -27,14 +29,14 @@ public class ClientEventHandler
 
         if (Shieldmechanics.isShield(stack))
         {
+            final HolderLookup.RegistryLookup<Enchantment> enchantments = tooltipContext.registries().lookupOrThrow(Registries.ENCHANTMENT);
             final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(BuiltInRegistries.ITEM.getKey(stack.getItem()));
             if (data == null)
             {
                 toolTips
-                  .add(Component.translatable(
+                    .add(Component.translatable(
                       "shieldmechanics.blockdmgreduct", (ShieldDataGatherer.getDefaultBlockReductionPct(stack)
-                                                           + BlockDamageEnchant.getAdditionalBlockChanceFor(tooltipContext.registries().lookup(Registries.ENCHANTMENT).get(),
-                        stack)) + "%")
+                                + BlockDamageEnchant.getAdditionalBlockChanceFor(enchantments, stack)) + "%")
                          .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
                 toolTips
@@ -47,8 +49,7 @@ public class ClientEventHandler
             toolTips
               .add(Component.translatable(
                   "shieldmechanics.blockdmgreduct",
-                  (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(tooltipContext.registries().lookup(Registries.ENCHANTMENT).get(),
-                    stack)) + "%")
+                      (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(enchantments, stack)) + "%")
                      .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
             toolTips

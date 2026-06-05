@@ -3,8 +3,8 @@ package com.shieldmechanics;
 import com.shieldmechanics.enchant.BlockDamageEnchant;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,7 +20,7 @@ public class ShieldDataGatherer
     /**
      * Parsed config list
      */
-    public static Map<ResourceLocation, ShieldData> shields = new HashMap<>();
+    public static Map<Identifier, ShieldData> shields = new HashMap<>();
 
     /**
      * Get the damage reduction for blocking for the given item
@@ -37,7 +37,7 @@ public class ShieldDataGatherer
         }
 
         return Math.max(0f,
-          data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(level.registryAccess().registry(Registries.ENCHANTMENT).get(), stack) / 100f));
+            data.onBlockDamageReduction - (BlockDamageEnchant.getAdditionalBlockChanceFor(level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT), stack) / 100f));
     }
 
     /**
@@ -69,15 +69,15 @@ public class ShieldDataGatherer
                 continue;
             }
 
-            final ResourceLocation main = ResourceLocation.tryParse(splitEntry[0]);
+            final Identifier main = Identifier.tryParse(splitEntry[0]);
             if (main == null)
             {
                 Shieldmechanics.LOGGER.error("Config entry could not be parsed, not a valid resource location " + splitEntry[0]);
                 continue;
             }
 
-            final Item item = BuiltInRegistries.ITEM.get(main);
-            if (item == Items.AIR)
+            final Item item = BuiltInRegistries.ITEM.getValue(main);
+            if (item == null || item == Items.AIR)
             {
                 Shieldmechanics.LOGGER.error("Config entry could not be parsed, not a valid item" + splitEntry[0]);
                 continue;
@@ -110,11 +110,11 @@ public class ShieldDataGatherer
         {
             if (Shieldmechanics.isShield(itemEntry.getValue().getDefaultInstance()))
             {
-                if (!shields.containsKey(itemEntry.getKey().location()))
+                if (!shields.containsKey(itemEntry.getKey().identifier()))
                 {
                     ShieldData newData = ShieldData.generateForItem(itemEntry.getValue().getDefaultInstance().getMaxDamage());
-                    shields.put(itemEntry.getKey().location(), newData);
-                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + itemEntry.getKey().location() + " with stats:"
+                    shields.put(itemEntry.getKey().identifier(), newData);
+                    Shieldmechanics.LOGGER.info("Found new shield item, adding: " + itemEntry.getKey().identifier() + " with stats:"
                                                   + " Durability: " + itemEntry.getValue().getDefaultInstance().getMaxDamage() + " BlockDamageReduction: "
                                                   + newData.onBlockDamageReductionPercent + " HoldDamageReduction: "
                                                   + newData.onHoldDamageReductionPercent);
@@ -127,7 +127,7 @@ public class ShieldDataGatherer
         {
             // put into config
             List<String> configList = new ArrayList<>();
-            for (Map.Entry<ResourceLocation, ShieldData> entry : shields.entrySet())
+            for (Map.Entry<Identifier, ShieldData> entry : shields.entrySet())
             {
                 configList.add(entry.getKey() + ";" + entry.getValue().onBlockDamageReductionPercent + ";" + entry.getValue().onHoldDamageReductionPercent);
             }

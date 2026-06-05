@@ -91,5 +91,7 @@ public class CommonConfiguration implements ICommonConfig
         ShieldDataGatherer.parseFromConfig();
         debugLogging = data.get("debugLogging").getAsJsonObject().get("debugLogging").getAsBoolean();
         hideinactiveshield = data.get("hideinactiveshield").getAsJsonObject().get("hideinactiveshield").getAsBoolean();
+
+        ShieldDataGatherer.detectItems();
     }
 }
