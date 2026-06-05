@@ -4,15 +4,18 @@ import com.cupboard.config.CupboardConfig;
 import com.shieldmechanics.config.CommonConfiguration;
 import com.shieldmechanics.enchant.Enchants;
 import com.shieldmechanics.event.ClientEventHandler;
+import com.shieldmechanics.event.EventHandler;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.enchantment.Enchantable;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +37,9 @@ public class Shieldmechanics
     public Shieldmechanics(IEventBus modEventBus, ModContainer modContainer)
     {
         NeoForge.EVENT_BUS.addListener(this::setup);
+        NeoForge.EVENT_BUS.register(EventHandler.class);
         modEventBus.addListener(this::clientSetup);
+        modEventBus.addListener(this::modifyDefaultComponents);
         Enchants.init();
     }
 
@@ -51,8 +56,16 @@ public class Shieldmechanics
         LOGGER.info("Shield mechanics initialized");
     }
 
+    private void modifyDefaultComponents(final ModifyDefaultComponentsEvent event)
+    {
+        event.modifyMatching((item, c) -> c.has(DataComponents.BLOCKS_ATTACKS) && (c.has(DataComponents.ENCHANTABLE) && c.get(DataComponents.ENCHANTABLE).value() < 14 || !c.has(
+            DataComponents.ENCHANTABLE)), builder -> builder.set(DataComponents.ENCHANTABLE, new Enchantable(14)));
+    }
+
     public static boolean isShield(final ItemStack stack)
     {
-        return stack.getItem() instanceof ShieldItem || stack.getItem().canPerformAction(stack, ItemAbilities.SHIELD_BLOCK) || stack.is(Enchants.SHIELD_ITEM_TAG);
+        return !stack.isEmpty()
+            && (stack.getItem() instanceof ShieldItem
+            || stack.has(DataComponents.BLOCKS_ATTACKS));
     }
 }

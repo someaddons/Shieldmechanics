@@ -4,7 +4,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 /**
  * Enchant for adding extra damage against raiders
@@ -25,11 +24,11 @@ public class BlockDamageEnchant
      */
     public static int getAdditionalBlockChanceFor(final Registry<Enchantment> registry, final ItemStack stack)
     {
-        return EnchantmentHelper.getItemEnchantmentLevel(registry.getHolderOrThrow(Enchants.blockDamageEnchant), stack) * REDUCTION_BLOCK_BONUS_ENCHANT;
+        return stack.getEnchantmentLevel(registry.getOrThrow(Enchants.blockDamageEnchant)) * REDUCTION_BLOCK_BONUS_ENCHANT;
     }
 
     public static int getAdditionalBlockChanceFor(final HolderLookup.RegistryLookup<Enchantment> holderLookup, final ItemStack stack)
     {
-        return EnchantmentHelper.getItemEnchantmentLevel(holderLookup.getOrThrow(Enchants.blockDamageEnchant), stack) * REDUCTION_BLOCK_BONUS_ENCHANT;
+        return stack.getEnchantmentLevel(holderLookup.getOrThrow(Enchants.blockDamageEnchant)) * REDUCTION_BLOCK_BONUS_ENCHANT;
     }
 }
