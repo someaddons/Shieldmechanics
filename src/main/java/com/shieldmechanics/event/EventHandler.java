@@ -178,7 +178,7 @@ public class EventHandler
             if (Shieldmechanics.rand.nextInt(KnockBackEnchant.KOCKBACK_CHANCE) == 0
                 && EnchantmentHelper.getItemEnchantmentLevel(RegistryLookup.getHolder(entity.level(), Registries.ENCHANTMENT, knockBackEnchant.identifier()), shieldItem) > 0)
             {
-                ((LivingEntity) sourceEntity).knockback(1.0F, entity.getX() - sourceEntity.getX(), entity.getZ() - sourceEntity.getZ());
+                ((LivingEntity) sourceEntity).knockback(1.0F, entity.getX() - sourceEntity.getX(), entity.getZ() - sourceEntity.getZ(), entity.createDamageSource(), 0f, true);
             }
 
             if (Shieldmechanics.rand.nextInt(SlownessEnchant.APPLY_CHANCE) == 0
