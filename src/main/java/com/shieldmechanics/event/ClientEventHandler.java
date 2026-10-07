@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
 
 public class ClientEventHandler
 {
@@ -28,13 +27,15 @@ public class ClientEventHandler
         if (Shieldmechanics.isShield(event.getItemStack()))
         {
             final ShieldDataGatherer.ShieldData data = ShieldDataGatherer.shields.get(BuiltInRegistries.ITEM.getKey(event.getItemStack().getItem()));
+            final int enchantmentValue = (event.getContext().registries() == null
+                ? 0
+                : BlockDamageEnchant.getAdditionalBlockChanceFor(event.getContext().registries().lookup(Registries.ENCHANTMENT).get(), event.getItemStack()));
             if (data == null)
             {
                 event.getToolTip()
                   .add(Component.translatable(
                       "shieldmechanics.blockdmgreduct", (ShieldDataGatherer.getDefaultBlockReductionPct(event.getItemStack())
-                                                           + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getContext().registries().lookup(Registries.ENCHANTMENT).get(),
-                        event.getItemStack())) + "%")
+                              + enchantmentValue + "%"))
                          .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
                 event.getToolTip()
@@ -47,9 +48,9 @@ public class ClientEventHandler
             event.getToolTip()
               .add(Component.translatable(
                   "shieldmechanics.blockdmgreduct",
-                  (data.onBlockDamageReductionPercent + BlockDamageEnchant.getAdditionalBlockChanceFor(event.getContext().registries().lookup(Registries.ENCHANTMENT).get(),
-                    event.getItemStack())) + "%")
-                     .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
+                      (data.onBlockDamageReductionPercent
+                          + enchantmentValue + "%"))
+                  .setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
 
             event.getToolTip()
               .add(Component.translatable(
