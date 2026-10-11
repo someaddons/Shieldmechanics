@@ -101,6 +101,7 @@ publishing {
         // retrieving dependencies.
     }
 }
+
 ["build", "runClient", "runServer"].each { taskName ->
     tasks.matching { it.name == taskName }.configureEach {
         dependsOn("cleanupGradleDaemons")
@@ -176,6 +177,7 @@ tasks.register("cleanupGradleDaemons") {
         }
     }
 }
+
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
